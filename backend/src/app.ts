@@ -9,6 +9,7 @@ import channelsRouter from "./routes/channels";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import roundRouter from "./routes/round";
+import loginRouter from "./routes/login";
 
 require('dotenv').config();
 
@@ -24,6 +25,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 const PORT = process.env.PORT || 3000;
 app.set('port', PORT);
 
+console.info(`Starting server on http://localhost:${PORT}`)
+
 const server = http.createServer(app);
 
 server.listen(PORT);
@@ -34,6 +37,7 @@ server.on('listening', onListening);
 app.use('/', homeRouter);
 app.use('/channels', channelsRouter);
 app.use('/round', roundRouter);
+app.use('/login', loginRouter);
 
 const swaggerSpec = swaggerJSDoc({
   failOnErrors: true,

@@ -7,7 +7,7 @@ services:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: tableboss
       MYSQL_USER: admin
-      MYSQL_PASSWORD: admim
+      MYSQL_PASSWORD: admin
     volumes:
       - db_data:/var/lib/mysql
     ports:
