@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: tableboss
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admim
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  shared:
+    image: build-shared:latest
+    build:
+      context: .
+      dockerfile: ./shared/Dockerfile
+  backend:
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - shared
+      - db
+  frontend:
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+      - shared
+
+volumes:
+  db_data:
