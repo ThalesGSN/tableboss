@@ -1,5 +1,5 @@
 import express from "express";
-import FuncionarioRrepository from "../repository/Funcionario/FuncionarioRrepository";
+import FuncionarioRrepository from "../../../repository/Funcionario/FuncionarioRrepository";
 
 
 const loginRouter = express.Router();
@@ -7,7 +7,7 @@ const loginRouter = express.Router();
 /**
  * @swagger
  *
- * /login:
+ * /api/v1/login:
  *     post:
  *       tags:
  *         - Authentication
@@ -64,21 +64,21 @@ const loginRouter = express.Router();
  */
 loginRouter.post('/', async function (req, res) {
     try {
-        const { username, password } = req.body; // Replace with the ID of the Slack channel you want to fetch users from
+        const {username, password} = req.body; // Replace with the ID of the Slack channel you want to fetch users from
 
         const funcionarioExists = await FuncionarioRrepository.funcionarioExists(username);
         if (!funcionarioExists) {
-            res.status(404).json({ error: 'User not found', ok: false });
+            res.status(404).json({error: 'User not found', ok: false});
             return;
         }
 
         const funcionario = await FuncionarioRrepository.login(username, password);
         if (!funcionario) {
-            res.status(401).json({ error: 'Invalid password', ok: false });
+            res.status(401).json({error: 'Invalid password', ok: false});
             return;
         }
 
-        res.json({ data: funcionario, ok: true });
+        res.json({data: funcionario, ok: true});
     } catch (error) {
         res.status(500).json({error: 'Failed to fetch user', ok: false});
     }

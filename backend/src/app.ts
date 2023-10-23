@@ -9,16 +9,19 @@ import channelsRouter from "./routes/channels";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import roundRouter from "./routes/round";
-import loginRouter from "./routes/login";
+import apiRouter from "./routes/api/api";
+import cors from 'cors';
 
 require('dotenv').config();
 
 const debug = require('debug')('calvin-barista:server');
 const app = express();
 
+app.use(cors());
+
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -35,20 +38,23 @@ server.on('listening', onListening);
 
 
 app.use('/', homeRouter);
+app.use('/api', apiRouter);
 app.use('/channels', channelsRouter);
 app.use('/round', roundRouter);
-app.use('/login', loginRouter);
 
 const swaggerSpec = swaggerJSDoc({
-  failOnErrors: true,
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Table Boss API',
-      version: '1.0.0',
+    failOnErrors: true,
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Table Boss API',
+            version: '1.0.0',
+        },
     },
-  },
-  apis: [`${__dirname}/src/routes**/*.ts`, `${__dirname}/src/routes**/*.js`, `${__dirname}/routes**/*.ts`, `${__dirname}/routes**/*.js`], // files containing annotations as above
+    apis: [
+        `${__dirname}/src/routes/**/*.{ts,js}`,
+        `${__dirname}/routes/**/*.{ts,js}`
+    ]
 });
 
 app.use('/api-docs', swaggerUi.serve);
@@ -56,20 +62,20 @@ app.get('/api-docs', swaggerUi.setup(swaggerSpec))
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+app.use(function (req, res, next) {
+    next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  console.error(err);
+app.use(function (err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    console.error(err);
 
-  // render the error page
-  res.status(err.status || 500);
-  res.json({"message": "error"});
+    // render the error page
+    res.status(err.status || 500);
+    res.json({"message": "error"});
 });
 
 
@@ -78,27 +84,27 @@ app.use(function(err, req, res, next) {
  */
 
 function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
 
-  var bind = typeof PORT === 'string'
-      ? 'Pipe ' + PORT
-      : 'Port ' + PORT;
+    var bind = typeof PORT === 'string'
+        ? 'Pipe ' + PORT
+        : 'Port ' + PORT;
 
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
 }
 
 /**
@@ -106,11 +112,11 @@ function onError(error) {
  */
 
 function onListening() {
-  const addr = server.address();
-  const bind = typeof addr === 'string'
-      ? 'pipe ' + addr
-      : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+    const addr = server.address();
+    const bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    debug('Listening on ' + bind);
 }
 
 
