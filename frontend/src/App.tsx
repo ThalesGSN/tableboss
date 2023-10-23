@@ -1,12 +1,12 @@
-import AppRouter from "./AppRouter.tsx";
-import {QueryClient, QueryClientProvider} from 'react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import Home from './pages/home';
 
 const queryClient = new QueryClient();
 
 function App() {
     return (
         <QueryClientProvider client={queryClient}>
-            <AppRouter/>
+            <Home/>
         </QueryClientProvider>
     );
 }

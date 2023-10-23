@@ -1,14 +1,15 @@
-import useLogin from "../../utils/queries/useLogin.ts";
-import Login from "../login/Login.tsx";
+import useLogin from '../../utils/queries/useLogin.ts';
+import Login from '../login/Login.tsx';
+import AppRouter from '../../AppRouter.tsx';
 
 const Home = () => {
-    const {loggedUser} = useLogin()
+    const { loggedUser } = useLogin()
 
     if (!loggedUser) {
         return <Login/>
     }
 
-    return <div>Logged in</div>
+    return <AppRouter/>
 }
 
 export default Home
