@@ -1,4 +1,4 @@
-import mysqlConnection, {selectFromDatabase, someFromDatabase} from "../../utils/mysqlConnection";
+import {selectFromDatabase, someFromDatabase} from "../../utils/mysqlConnection";
 import Funcionario from "tableboss-shared/dist/Funcionario";
 import sqlToFuncionario from "./mappers/sqlToFuncionario";
 
@@ -6,8 +6,7 @@ import sqlToFuncionario from "./mappers/sqlToFuncionario";
 const FuncionarioRepository = {
     funcionarioExists: (userName: string) => {
         const sql = 'SELECT 1 FROM Funcionario WHERE UserName = ?';
-        let booleanPromise = someFromDatabase({sql, args: [userName]});
-        return booleanPromise
+        return someFromDatabase({sql, args: [userName]})
     },
     login: async (userName: string, senha: string) => {
         const sql = 'SELECT * FROM Funcionario WHERE UserName = ? and Senha = MD5(?)';

@@ -1,6 +1,6 @@
 const Dashboard = () => {
     return (
-        <div>
+        <div style={{display: 'flex'}}>
             Dashboard
         </div>
     )

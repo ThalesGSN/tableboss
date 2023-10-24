@@ -11,6 +11,7 @@ import swaggerJSDoc from "swagger-jsdoc";
 import roundRouter from "./routes/round";
 import apiRouter from "./routes/api/api";
 import cors from 'cors';
+import mysqlConnection from "./utils/mysqlConnection";
 
 require('dotenv').config();
 
@@ -35,6 +36,7 @@ const server = http.createServer(app);
 server.listen(PORT);
 server.on('error', onError);
 server.on('listening', onListening);
+server.on('close', onClose)
 
 
 app.use('/', homeRouter);
@@ -117,6 +119,13 @@ function onListening() {
         ? 'pipe ' + addr
         : 'port ' + addr.port;
     debug('Listening on ' + bind);
+}
+
+/**
+ * Event listener for HTTP server "close" event.
+ */
+function onClose() {
+    mysqlConnection.end()
 }
 
 

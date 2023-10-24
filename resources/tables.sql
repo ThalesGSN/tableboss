@@ -138,3 +138,4 @@ CREATE TABLE Ingrediente_Item_Menu (
     FOREIGN KEY (ID_ingrediente) REFERENCES Ingrediente(ID_ingrediente),
     FOREIGN KEY (ID_item) REFERENCES Item_do_Menu(ID_item)
 );
+

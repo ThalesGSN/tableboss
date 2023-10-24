@@ -1,5 +1,5 @@
 import express from "express";
-import FuncionarioRrepository from "../../../repository/Funcionario/FuncionarioRrepository";
+import FuncionarioRrepository from "../../../repository/Funcionario";
 
 
 const loginRouter = express.Router();

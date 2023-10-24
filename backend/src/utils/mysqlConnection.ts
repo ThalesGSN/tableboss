@@ -21,14 +21,20 @@ mysqlConnection.connect(err => {
     console.log('DB is connected');
 })
 
-
-export interface queryDataBaseProps<T> {
+export interface QueryDatabaseProps {
     sql: string;
-    args?: string[] | number[];
+    args?: any;
+}
+
+export interface SelectQueryDataBaseProps<T> extends QueryDatabaseProps {
     mapper?: (row: mysql.RowDataPacket) => T;
 }
 
-export function selectFromDatabase<T>({sql, args, mapper}: queryDataBaseProps<T>) : Promise<T[] | mysql.RowDataPacket[]> {
+export function selectFromDatabase<T>({
+                                          sql,
+                                          args,
+                                          mapper
+                                      }: SelectQueryDataBaseProps<T>): Promise<T[] | mysql.RowDataPacket[]> {
     return new Promise((resolve, reject) => {
         mysqlConnection.query(sql, args, (error, results: unknown) => {
             if (error) {
@@ -47,7 +53,7 @@ export function selectFromDatabase<T>({sql, args, mapper}: queryDataBaseProps<T>
     });
 }
 
-export function someFromDatabase<T>({sql, args, mapper}: queryDataBaseProps<T>): Promise<boolean> {
+export function someFromDatabase({sql, args}: QueryDatabaseProps): Promise<boolean> {
     return new Promise((resolve, reject) => {
         mysqlConnection.query(sql, args, (error, results: unknown) => {
             if (error) {
@@ -56,6 +62,18 @@ export function someFromDatabase<T>({sql, args, mapper}: queryDataBaseProps<T>):
             const exists = Array.isArray(results) && results.length > 0;
 
             return resolve(exists);
+        });
+    });
+}
+
+export function insertIntoDatabase({sql, args}: QueryDatabaseProps): Promise<number> {
+    return new Promise((resolve, reject) => {
+        mysqlConnection.query(sql, args, (error, results) => {
+            if (error) {
+                return reject(error);
+            }
+            const result = results as mysql.ResultSetHeader
+            return resolve(result.insertId);
         });
     });
 }
