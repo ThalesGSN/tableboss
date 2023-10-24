@@ -5,11 +5,9 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import http from "http";
 import homeRouter from "./routes/home";
-import channelsRouter from "./routes/channels";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
-import roundRouter from "./routes/round";
-import apiRouter from "./routes/api/api";
+import apiRouter from "./routes/api";
 import cors from 'cors';
 import mysqlConnection from "./utils/mysqlConnection";
 
@@ -41,8 +39,6 @@ server.on('close', onClose)
 
 app.use('/', homeRouter);
 app.use('/api', apiRouter);
-app.use('/channels', channelsRouter);
-app.use('/round', roundRouter);
 
 const swaggerSpec = swaggerJSDoc({
     failOnErrors: true,

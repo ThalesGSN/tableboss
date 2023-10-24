@@ -1,6 +1,7 @@
 import {insertIntoDatabase, selectFromDatabase} from "../../utils/mysqlConnection";
 import Cliente from "tableboss-shared/dist/Cliente";
-import {mapToRawCliente, sqlToCliente} from "./mappers/sqlToCliente";
+import sqlToCliente from "./utils/mappers/sqlToCliente";
+import clienteToRaw from "./utils/mappers/clienteToRaw";
 
 const ClienteRepository = {
     getClienteById: async (id: number) => {
@@ -44,7 +45,7 @@ const ClienteRepository = {
     },
     createCliente: async (cliente: Omit<Cliente, 'idCliente'>): Promise<Cliente> => {
         const sql = 'INSERT INTO Cliente SET ?'
-        const rawCliente = mapToRawCliente(cliente as Cliente)
+        const rawCliente = clienteToRaw(cliente as Cliente)
         const insertedId = await insertIntoDatabase({sql, args: rawCliente})
 
         return {
