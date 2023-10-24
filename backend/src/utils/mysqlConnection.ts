@@ -30,11 +30,11 @@ export interface SelectQueryDataBaseProps<T> extends QueryDatabaseProps {
     mapper?: (row: mysql.RowDataPacket) => T;
 }
 
-export function selectFromDatabase<T>({
+export const selectFromDatabase = <T>({
                                           sql,
                                           args,
                                           mapper
-                                      }: SelectQueryDataBaseProps<T>): Promise<T[] | mysql.RowDataPacket[]> {
+                                      }: SelectQueryDataBaseProps<T>): Promise<T[] | mysql.RowDataPacket[]> => {
     return new Promise((resolve, reject) => {
         mysqlConnection.query(sql, args, (error, results: unknown) => {
             if (error) {
@@ -53,7 +53,7 @@ export function selectFromDatabase<T>({
     });
 }
 
-export function someFromDatabase({sql, args}: QueryDatabaseProps): Promise<boolean> {
+export const someFromDatabase = ({sql, args}: QueryDatabaseProps): Promise<boolean> => {
     return new Promise((resolve, reject) => {
         mysqlConnection.query(sql, args, (error, results: unknown) => {
             if (error) {
@@ -66,7 +66,7 @@ export function someFromDatabase({sql, args}: QueryDatabaseProps): Promise<boole
     });
 }
 
-export function insertIntoDatabase({sql, args}: QueryDatabaseProps): Promise<number> {
+export const insertIntoDatabase = ({sql, args}: QueryDatabaseProps): Promise<number> => {
     return new Promise((resolve, reject) => {
         mysqlConnection.query(sql, args, (error, results) => {
             if (error) {
@@ -78,4 +78,35 @@ export function insertIntoDatabase({sql, args}: QueryDatabaseProps): Promise<num
     });
 }
 
-export default mysqlConnection;
+export const updateDatabase = ({sql, args}: { sql: string; args: (string | number | Date)[] }): Promise<void> => {
+    return new Promise((resolve, reject) => {
+        mysqlConnection.query(sql, args, (error) => {
+            if (error) {
+                return reject(error);
+            }
+            resolve();
+        });
+    });
+};
+
+export const deleteFromDatabase = ({sql, args}: { sql: string; args: (string | number)[] }): Promise<void> => {
+    return new Promise((resolve, reject) => {
+        mysqlConnection.query(sql, args, (error) => {
+            if (error) {
+                return reject(error);
+            }
+            resolve();
+        });
+    });
+};
+
+const Connection = {
+    selectFromDatabase,
+    someFromDatabase,
+    insertIntoDatabase,
+    updateDatabase,
+    deleteFromDatabase,
+    connection: mysqlConnection
+}
+
+export default Connection;

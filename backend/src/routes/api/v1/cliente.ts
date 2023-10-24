@@ -170,4 +170,140 @@ clienteRouter.get('/', async (req, res, next) => {
     }
 })
 
+
+/**
+ * @swagger
+ * /api/v1/cliente/{id}:
+ *   delete:
+ *     tags:
+ *       - Cliente
+ *     description: Deletes a cliente by ID
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         description: ID of the cliente
+ *         in: path
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: Cliente successfully deleted
+ *         schema:
+ *           type: object
+ *           properties:
+ *             ok:
+ *               type: boolean
+ *       400:
+ *         description: Invalid ID supplied
+ *         schema:
+ *           type: object
+ *           properties:
+ *             ok:
+ *               type: boolean
+ *             error:
+ *               type: string
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           type: object
+ *           properties:
+ *             ok:
+ *               type: boolean
+ *             error:
+ *               type: string
+ */
+clienteRouter.delete('/:id', async (req, res) => {
+    try {
+        const idCliente = parseInt(req.params.id);
+        if (isNaN(idCliente)) {
+            return res.status(400).json({ok: false, error: "Invalid id"});
+        }
+
+        await ClienteRepository.deleteCliente(idCliente);
+
+        res.json({ok: true});
+    } catch (e) {
+        res.status(500).json({ok: false, error: e.message});
+    }
+});
+
+
+/**
+ * @swagger
+ * /api/v1/cliente/{id}:
+ *   put:
+ *     tags:
+ *       - Cliente
+ *     description: Updates a cliente by ID
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         description: ID of the cliente to be updated
+ *         in: path
+ *         required: true
+ *         type: integer
+ *       - in: body
+ *         name: body
+ *         description: Cliente data to be updated
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/Cliente'
+ *     responses:
+ *       200:
+ *         description: Cliente successfully updated
+ *         schema:
+ *           type: object
+ *           properties:
+ *             ok:
+ *               type: boolean
+ *       400:
+ *         description: Invalid ID supplied or bad request
+ *         schema:
+ *           type: object
+ *           properties:
+ *             ok:
+ *               type: boolean
+ *             error:
+ *               type: string
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           type: object
+ *           properties:
+ *             ok:
+ *               type: boolean
+ *             error:
+ *               type: string
+ * definitions:
+ *   Cliente:
+ *     type: object
+ *     properties:
+ *       nome:
+ *         type: string
+ *       contato:
+ *         type: string
+ *       endereco:
+ *         type: string
+ *       dataDeNascimento:
+ *         type: string
+ *         format: date
+ */
+clienteRouter.put('/:id', async (req, res) => {
+    try {
+        const idCliente = parseInt(req.params.id);
+        if (isNaN(idCliente)) {
+            return res.status(400).json({ok: false, error: "Invalid id"});
+        }
+
+        const clienteData = req.body;
+        await ClienteRepository.updateCliente(idCliente, clienteData);
+
+        res.json({ok: true});
+    } catch (e) {
+        res.status(500).json({ok: false, error: e.message});
+    }
+});
+
 export default clienteRouter

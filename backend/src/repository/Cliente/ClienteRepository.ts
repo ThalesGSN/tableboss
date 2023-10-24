@@ -1,4 +1,4 @@
-import {insertIntoDatabase, selectFromDatabase} from "../../utils/mysqlConnection";
+import {deleteFromDatabase, insertIntoDatabase, selectFromDatabase, updateDatabase} from "../../utils/mysqlConnection";
 import Cliente from "tableboss-shared/dist/Cliente";
 import sqlToCliente from "./utils/mappers/sqlToCliente";
 import clienteToRaw from "./utils/mappers/clienteToRaw";
@@ -52,7 +52,27 @@ const ClienteRepository = {
             ...cliente,
             idCliente: insertedId
         } as Cliente
-    }
+    },
+    deleteCliente: async (idCliente: number): Promise<void> => {
+        const sql = 'DELETE FROM Cliente WHERE ID_cliente = ?'
+        await deleteFromDatabase({sql, args: [idCliente]});
+    },
+    updateCliente: async (idCliente: number, clienteData: Partial<Cliente>): Promise<void> => {
+        const fields = Object.keys(clienteData);
+        const values = Object.values(clienteData);
+
+        if (fields.length === 0) {
+            throw new Error('No fields provided to update');
+        }
+
+        const sqlSet = fields.map(field => `${field} = ?`).join(', ');
+        const sql = `UPDATE Cliente
+                     SET ${sqlSet}
+                     WHERE ID_cliente = ?`;
+
+        await updateDatabase({sql, args: [...values, idCliente]});
+    },
+
 }
 
 export default ClienteRepository

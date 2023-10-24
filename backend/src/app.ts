@@ -121,7 +121,7 @@ function onListening() {
  * Event listener for HTTP server "close" event.
  */
 function onClose() {
-    mysqlConnection.end()
+    mysqlConnection.connection.end()
 }
 
 
