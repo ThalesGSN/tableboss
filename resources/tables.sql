@@ -1,34 +1,34 @@
 CREATE TABLE Cliente (
     ID_cliente INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(255) NOT NULL,
-    Contato VARCHAR(255),
-    Endereco VARCHAR(255),
+    Nome TEXT NOT NULL,
+    Contato TEXT,
+    Endereco TEXT,
     Data_de_Nascimento DATE
 );
 
 CREATE TABLE Fornecedor (
     ID_fornecedor INT AUTO_INCREMENT PRIMARY KEY,
-    Nome_da_Empresa VARCHAR(255) NOT NULL,
-    Contato VARCHAR(255) NOT NULL
+    Nome_da_Empresa TEXT NOT NULL,
+    Contato TEXT NOT NULL
 );
 
 CREATE TABLE Ingrediente (
     ID_ingrediente INT AUTO_INCREMENT PRIMARY KEY,
     ID_fornecedor INT NOT NULL,
-    nome VARCHAR(255) NOT NULL,
+    nome TEXT NOT NULL,
     qtd_estoque INT NOT NULL,
     FOREIGN KEY (ID_fornecedor) REFERENCES Fornecedor(ID_fornecedor)
 );
 
 CREATE TABLE Categoria (
     ID_categoria INT PRIMARY KEY,
-    nome VARCHAR(255) NOT NULL
+    nome TEXT NOT NULL
 );
 
 CREATE TABLE Item_do_Menu (
     ID_item INT AUTO_INCREMENT PRIMARY KEY,
     ID_categoria INT NOT NULL,
-    Nome VARCHAR(255) NOT NULL,
+    Nome TEXT NOT NULL,
     Descricao TEXT,
     Preco DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (ID_categoria) REFERENCES Categoria(ID_categoria)
@@ -36,10 +36,10 @@ CREATE TABLE Item_do_Menu (
 
 CREATE TABLE Funcionario (
     ID_funcionario INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(255) NOT NULL,
-    Funcao VARCHAR(255) NOT NULL,
-    UserName VARCHAR(255) NOT NULL,
-    Senha VARCHAR(255) NOT NULL,
+    Nome TEXT NOT NULL,
+    Funcao TEXT NOT NULL,
+    UserName TEXT NOT NULL,
+    Senha TEXT NOT NULL,
     Data_de_Contratacao DATE NOT NULL,
     Salario DECIMAL(10,2) NOT NULL
 );
@@ -48,8 +48,6 @@ CREATE TABLE Mesa (
     ID_mesa INT AUTO_INCREMENT PRIMARY KEY,
     Numero_de_Lugares INT NOT NULL
 );
-
-
 
 CREATE TABLE Conta (
     ID_conta INT AUTO_INCREMENT PRIMARY KEY,
@@ -61,7 +59,7 @@ CREATE TABLE Conta (
 
 CREATE TABLE Status_Pedido (
     ID_status INT AUTO_INCREMENT PRIMARY KEY,
-    Status VARCHAR(255) NOT NULL
+    Status TEXT NOT NULL
 );
 
 CREATE TABLE Pedido (
@@ -93,7 +91,7 @@ CREATE TABLE Reserva (
 
 CREATE TABLE Status_VIP (
     ID_status_vip INT AUTO_INCREMENT PRIMARY KEY,
-    Status VARCHAR(255) NOT NULL
+    Status TEXT NOT NULL
 );
 
 CREATE TABLE Cliente_VIP (
@@ -118,7 +116,7 @@ CREATE TABLE Item_do_Pedido (
 
 create TABLE Metodo_de_Pagamento (
     ID_metodo INT AUTO_INCREMENT PRIMARY KEY,
-    Metodo VARCHAR(255) NOT NULL
+    Metodo TEXT NOT NULL
 );
 
 CREATE TABLE Pagamento (

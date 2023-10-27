@@ -1,4 +1,4 @@
-import Reserva from "tableboss-shared/dist/Reserva";
+import Reserva from "@tableboss/types/Reserva";
 
 const mapToRawReserva = (reserva: Reserva) => {
     return {

@@ -1,4 +1,4 @@
-import Cliente from "tableboss-shared/dist/Cliente";
+import {Cliente} from "@tableboss/types";
 import {RawCliente} from "../types";
 import mysql from "mysql2";
 

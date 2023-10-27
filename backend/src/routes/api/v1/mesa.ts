@@ -1,5 +1,3 @@
-// routes/api/v1/mesaRouter.ts
-
 import express from "express";
 import MesaRepository from "../../../repository/Mesa";
 

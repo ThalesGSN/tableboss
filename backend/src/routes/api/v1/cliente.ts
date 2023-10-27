@@ -1,5 +1,5 @@
 import express from "express";
-import Cliente from "tableboss-shared/dist/Cliente";
+import {Cliente} from "@tableboss/types";
 import ClienteRepository from "../../../repository/Cliente";
 
 const clienteRouter = express.Router()
@@ -145,7 +145,7 @@ clienteRouter.post('/', async (req, res) => {
  *         type: string
  *         format: date
  */
-clienteRouter.get('/', async (req, res, next) => {
+clienteRouter.get('/', async (req, res) => {
     try {
         const query = req.query.query as unknown
         if (!query || typeof query !== 'string') {

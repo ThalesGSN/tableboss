@@ -1,6 +1,6 @@
 // MesaRepository.ts
 import {selectFromDatabase} from "../../utils/mysqlConnection";
-import Mesa from "tableboss-shared/dist/Mesa";
+import {Mesa} from "@tableboss/types";
 import mysql from "mysql2";
 
 export interface MesaRow {

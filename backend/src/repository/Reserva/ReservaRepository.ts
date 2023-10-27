@@ -1,9 +1,9 @@
-import {insertIntoDatabase, selectFromDatabase} from "../../utils/mysqlConnection";
-import Reserva from "tableboss-shared/dist/Reserva";
+import {deleteFromDatabase, insertIntoDatabase, selectFromDatabase, updateDatabase} from "../../utils/mysqlConnection";
+import Reserva from "@tableboss/types/Reserva";
 import sqlToReserva from "./utils/mappers/sqlToReserva";
 import mapToRawReserva from "./utils/mappers/mapToRawReserva";
-import Cliente from "tableboss-shared/dist/Cliente";
-import Mesa from "tableboss-shared/dist/Mesa";
+import Cliente from "@tableboss/types/Cliente";
+import Mesa from "@tableboss/types/Mesa";
 import sqlToCliente from "../Cliente/utils/mappers/sqlToCliente";
 import {formatISO, startOfDay} from 'date-fns'
 import {sqlToMesa} from "../Mesa/MesaRepository";
@@ -49,6 +49,21 @@ const ReservaRepository = {
             cliente: result.cliente,
             mesa: result.mesa
         })) as Reserva[];
+    },
+    async deleteReserva(idReserva: number): Promise<void> {
+        const sql = 'DELETE FROM Reserva WHERE ID_reserva = ?';
+        await deleteFromDatabase({sql, args: [idReserva]});
+    },
+    async updateReserva(idReserva: number, reservaData: Partial<Omit<Reserva, 'mesa' | 'cliente'>>): Promise<void> {
+        const fields = Object.keys(reservaData).map(field => `${field} = ?`).join(', ');
+        const values = Object.values(reservaData);
+
+        if (fields.length > 0) {
+            const sql = `UPDATE Reserva
+                         SET ${fields}
+                         WHERE ID_reserva = ?`;
+            await updateDatabase({sql, args: [...values, idReserva]});
+        }
     }
 
 }

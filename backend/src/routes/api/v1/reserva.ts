@@ -1,6 +1,6 @@
 import express from "express";
 import {format} from 'date-fns';
-import Reserva from "tableboss-shared/dist/Reserva";
+import {Reserva} from "@tableboss/types";
 import ReservaRepository from "../../../repository/Reserva/ReservaRepository"; // Assuming you have a similar structure for Reserva
 
 const reservaRouter = express.Router()
@@ -157,5 +157,98 @@ reservaRouter.get('/', async (req, res) => {
         })
     }
 })
+
+
+/**
+ * @swagger
+ * /api/v1/reserva/{id}:
+ *   delete:
+ *     tags:
+ *       - Reserva
+ *     description: Delete a reservation by its ID
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         description: ID of the reservation to delete
+ *         in: path
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: Successfully deleted
+ *         schema:
+ *           type: object
+ *           properties:
+ *             ok:
+ *               type: boolean
+ *       400:
+ *         description: Invalid ID
+ *         schema:
+ *           type: object
+ *           properties:
+ *             ok:
+ *               type: boolean
+ *             error:
+ *               type: string
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           type: object
+ *           properties:
+ *             ok:
+ *               type: boolean
+ *             error:
+ *               type: string
+ */
+reservaRouter.delete('/:id', async (req, res) => {
+    try {
+        const idReserva = parseInt(req.params.id);
+        if (isNaN(idReserva)) {
+            return res.status(400).json({ok: false, error: "Invalid id"});
+        }
+
+        await ReservaRepository.deleteReserva(idReserva);
+
+        res.json({ok: true});
+    } catch (e) {
+        res.status(500).json({ok: false, error: e.message});
+    }
+});
+
+
+reservaRouter.put('/:id', async (req, res) => {
+    try {
+        const idReserva = parseInt(req.params.id);
+        if (isNaN(idReserva)) {
+            return res.status(400).json({ok: false, error: "Invalid id"});
+        }
+
+        const reservaData = req.body;
+        await ReservaRepository.updateReserva(idReserva, reservaData);
+
+        res.json({ok: true});
+    } catch (e) {
+        res.status(500).json({ok: false, error: e.message});
+    }
+});
+
+
+reservaRouter.put('/:id', async (req, res) => {
+    try {
+        const idReserva = parseInt(req.params.id);
+        if (isNaN(idReserva)) {
+            return res.status(400).json({ok: false, error: "Invalid id"});
+        }
+
+        const reservaData = req.body;
+        await ReservaRepository.updateReserva(idReserva, reservaData);
+
+        res.json({ok: true});
+    } catch (e) {
+        res.status(500).json({ok: false, error: e.message});
+    }
+});
+
 
 export default reservaRouter;

@@ -1,15 +1,14 @@
-import { Alert, Button, Snackbar, TextField, Typography } from "@mui/material";
+import {Alert, Button, Snackbar, TextField, Typography} from "@mui/material";
 import useLoginForm from "../utils/useLoginForm.ts";
-import { useEffect, useState } from "react";
-import { AxiosError } from "axios";
+import {useEffect, useState} from "react";
+import {AxiosError} from "axios";
 import ApiResponse from "../../../utils/types/ApiResponse.ts";
-import Funcionario from "tableboss-shared/dist/Funcionario";
-import { LoginBoxContainer } from "../styles.ts";
-
+import Funcionario from "@tableboss/types/Funcionario";
+import {LoginBoxContainer} from "../styles.ts";
 
 const LoginBox = () => {
-    const { submit, formData, isLoading, handleInputChange, error } = useLoginForm();
-    const { username, password } = formData;
+    const {submit, formData, isLoading, handleInputChange, error} = useLoginForm();
+    const {username, password} = formData;
 
     const [showError, setShowError] = useState(false);
 
@@ -22,7 +21,7 @@ const LoginBox = () => {
     const onCloseError = () => setShowError(false);
 
     return (
-        <LoginBoxContainer component="main" style={{ backgroundColor: 'white' }} maxWidth="xs">
+        <LoginBoxContainer component="main" style={{backgroundColor: 'white'}} maxWidth="xs">
             <Typography variant="h5">Login</Typography>
             <form onSubmit={submit}>
                 <TextField
@@ -60,7 +59,7 @@ const LoginBox = () => {
             </form>
             {showError && (
                 <Snackbar open={Boolean(error)} onClose={onCloseError} autoHideDuration={6000}>
-                    <Alert severity="error" onClose={onCloseError} sx={{ width: '100%' }}>
+                    <Alert severity="error" onClose={onCloseError} sx={{width: '100%'}}>
                         {axiosError.response?.data?.error || axiosError.message}
                     </Alert>
                 </Snackbar>

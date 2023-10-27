@@ -1,5 +1,5 @@
 import {deleteFromDatabase, insertIntoDatabase, selectFromDatabase, updateDatabase} from "../../utils/mysqlConnection";
-import Cliente from "tableboss-shared/dist/Cliente";
+import Cliente from '@tableboss/types/Cliente';
 import sqlToCliente from "./utils/mappers/sqlToCliente";
 import clienteToRaw from "./utils/mappers/clienteToRaw";
 

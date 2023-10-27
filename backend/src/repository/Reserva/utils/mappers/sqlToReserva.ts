@@ -1,4 +1,4 @@
-import Reserva from "tableboss-shared/dist/Reserva";
+import {Reserva} from "@tableboss/types";
 import ReservaMesaRow from "../types";
 import mysql from "mysql2";
 

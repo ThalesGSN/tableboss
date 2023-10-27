@@ -1,5 +1,5 @@
 import {selectFromDatabase, someFromDatabase} from "../../utils/mysqlConnection";
-import Funcionario from "tableboss-shared/dist/Funcionario";
+import Funcionario from "@tableboss/types/Funcionario";
 import sqlToFuncionario from "./mappers/sqlToFuncionario";
 
 

@@ -1,5 +1,5 @@
 import {useMutation, useQuery, useQueryClient} from "react-query";
-import Funcionario from "tableboss-shared/dist/Funcionario";
+import Funcionario from "@tableboss/types/Funcionario";
 import LoginFormData from "../types/LoginFormData.ts";
 import api from "../api.ts";
 
