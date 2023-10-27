@@ -15,8 +15,8 @@ export const useReservations = (date: string | null = null) => {
             if (!data.idReserva) {
                 throw new Error('Missing idReserva');
             }
-
-            const { mesa, cliente, ...rest } = data;
+            
+            const { mesa: _mesa, cliente: _cliente, ...rest } = data;
             await updateMutation.mutateAsync({ id: data.idReserva, updatedData: rest });
             console.log('Reservation updated!');
         } catch (error) {

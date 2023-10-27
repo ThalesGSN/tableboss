@@ -16,7 +16,13 @@ export const deleteReservationCall = async (id: number) => {
     return response.data;
 };
 
-export const updateReservationCall = async ({ id, updatedData }: any) => {
+
+export interface UpdateReservationCallProps {
+    id: number;
+    updatedData: Partial<Reserva>;
+}
+
+export const updateReservationCall = async ({ id, updatedData }: UpdateReservationCallProps) => {
     const response = await axios.put(`/api/reservations/${id}`, updatedData);
     return response.data;
 };

@@ -16,6 +16,11 @@ module.exports = {
 		],
 		'object-curly-spacing': ["error", "always"],
 		'react/react-in-jsx-scope': "off",
-		'quotes': ["error", "single", {"avoidEscape": true}]
+		'quotes': ["error", "single", {"avoidEscape": true}],
+		'@typescript-eslint/no-unused-vars': ['error', {
+			'argsIgnorePattern': '^_',
+			'varsIgnorePattern': '^_'
+		}],
+		'@typescript-eslint/no-explicit-any': 'warn'
 	},
 }
