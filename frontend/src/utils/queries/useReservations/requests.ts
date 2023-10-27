@@ -1,9 +1,10 @@
-import axios from 'axios';
 import ApiResponse from '../../types/ApiResponse.ts';
 import Reserva from '@tableboss/types/Reserva';
+import api from '../../api.ts';
 
 export const fetchReservations = async (date: string | null) => {
-    const { data } = await axios.get<ApiResponse<Reserva[]>>(`/api/reservations${date ? `?date=${date}` : ''}`);
+    console.log('fetchReservations')
+    const { data } = await api.get<ApiResponse<Reserva[]>>(`/reserva${date ? `?date=${date}` : ''}`);
     if (!data.ok) {
         throw new Error(data.error);
     }
@@ -12,7 +13,7 @@ export const fetchReservations = async (date: string | null) => {
 
 
 export const deleteReservationCall = async (id: number) => {
-    const response = await axios.delete(`/api/reservations/${id}`);
+    const response = await api.delete(`/reserva/${id}`);
     return response.data;
 };
 
@@ -23,6 +24,6 @@ export interface UpdateReservationCallProps {
 }
 
 export const updateReservationCall = async ({ id, updatedData }: UpdateReservationCallProps) => {
-    const response = await axios.put(`/api/reservations/${id}`, updatedData);
+    const response = await api.put(`/reserva/${id}`, updatedData);
     return response.data;
 };

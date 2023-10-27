@@ -3,6 +3,11 @@ import Funcionario from '@tableboss/types/Funcionario';
 import LoginFormData from '../types/LoginFormData.ts';
 import api from '../api.ts';
 
+async function callLogin(credentials: LoginFormData) {
+    const response = await api.post('/login', credentials);
+    return response.data;
+}
+
 const useLogin = () => {
     const queryClient = useQueryClient();
     const { data: loggedUser, ...queryProps } = useQuery('userData', {
@@ -22,10 +27,6 @@ const useLogin = () => {
         },
     });
 
-    async function callLogin(credentials: LoginFormData) {
-        const response = await api.post('/login', credentials);
-        return response.data;
-    }
 
     const handleLogin = (username: string, password: string) => {
         mutate({ username, password });

@@ -1,16 +1,13 @@
 import { Container, Typography } from '@mui/material';
+import ReservaTable from './component/ReservaTable.tsx';
 
-const Dashboard = () => {
-
-
-    return (
-        <Container>
-            <Typography variant="h4" gutterBottom>
-                Today's Reservations
-            </Typography>
-
-        </Container>
-    );
-};
+const Dashboard = () => (
+    <Container>
+        <Typography variant="h4" gutterBottom>
+            Today's Reservations
+        </Typography>
+        <ReservaTable/>
+    </Container>
+);
 
 export default Dashboard;
