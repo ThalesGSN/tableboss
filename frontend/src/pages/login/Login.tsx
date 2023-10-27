@@ -1,5 +1,5 @@
-import LoginBox from "./components/LoginBox.tsx";
-import { LoginContainer } from "./styles.ts";
+import LoginBox from './components/LoginBox.tsx';
+import { LoginContainer } from './styles.ts';
 
 const Login = () => (
     <LoginContainer>

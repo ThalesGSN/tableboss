@@ -1,13 +1,13 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import restaurant from './assets/restaurant.jpg'
-import { Container } from "@mui/material";
+import { Container } from '@mui/material';
 
 export const LoginContainer = styled.div`
   background-image: url(${restaurant});
   width: 100vw;
   height: 100vh;
   background-size: cover;
-  
+
   display: flex;
   justify-content: center;
   align-items: center;
