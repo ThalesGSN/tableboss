@@ -1,4 +1,4 @@
-import mysql from "mysql2/index";
+import mysql from 'mysql2/index'
 
 
 export interface RawCliente extends mysql.RowDataPacket {

@@ -1,3 +1,3 @@
-import MesaRepository from "./MesaRepository";
+import MesaRepository from './MesaRepository'
 
 export default MesaRepository

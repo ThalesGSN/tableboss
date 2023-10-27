@@ -1,6 +1,6 @@
-import express from "express";
-import {Cliente} from "@tableboss/types";
-import ClienteRepository from "../../../repository/Cliente";
+import express from 'express'
+import { Cliente } from '@tableboss/types'
+import ClienteRepository from '../../../repository/Cliente'
 
 const clienteRouter = express.Router()
 
@@ -69,27 +69,27 @@ const clienteRouter = express.Router()
  *         format: date
  */
 clienteRouter.post('/', async (req, res) => {
-    try {
-        const cliente = req.body as Omit<Cliente, 'idCliente'>
+	try {
+		const cliente = req.body as Omit<Cliente, 'idCliente'>
 
-        if (!cliente.nome) {
-            return res.status(422).json({
-                ok: false,
-                error: 'O atributo nome é obrigatorio'
-            })
-        }
-        const createdClient = await ClienteRepository.createCliente(cliente)
+		if (!cliente.nome) {
+			return res.status(422).json({
+				ok: false,
+				error: 'O atributo nome é obrigatorio'
+			})
+		}
+		const createdClient = await ClienteRepository.createCliente(cliente)
 
-        res.status(201).json({
-            ok: true,
-            data: createdClient
-        })
-    } catch (e) {
-        res.status(400).json({
-            ok: false,
-            error: e.message
-        })
-    }
+		res.status(201).json({
+			ok: true,
+			data: createdClient
+		})
+	} catch (e) {
+		res.status(400).json({
+			ok: false,
+			error: e.message
+		})
+	}
 })
 
 /**
@@ -146,28 +146,28 @@ clienteRouter.post('/', async (req, res) => {
  *         format: date
  */
 clienteRouter.get('/', async (req, res) => {
-    try {
-        const query = req.query.query as unknown
-        if (!query || typeof query !== 'string') {
-            const clientes = await ClienteRepository.getTopNClientes(15)
-            res.json({
-                ok: true,
-                data: clientes
-            })
-        }
-        const searchText = query as string
+	try {
+		const query = req.query.query as unknown
+		if (!query || typeof query !== 'string') {
+			const clientes = await ClienteRepository.getTopNClientes(15)
+			res.json({
+				ok: true,
+				data: clientes
+			})
+		}
+		const searchText = query as string
 
-        const clientes = await ClienteRepository.searchClientesByText(searchText)
-        res.json({
-            ok: true,
-            data: clientes
-        })
-    } catch (e) {
-        res.json({
-            ok: false,
-            error: e.message
-        })
-    }
+		const clientes = await ClienteRepository.searchClientesByText(searchText)
+		res.json({
+			ok: true,
+			data: clientes
+		})
+	} catch (e) {
+		res.json({
+			ok: false,
+			error: e.message
+		})
+	}
 })
 
 
@@ -214,19 +214,19 @@ clienteRouter.get('/', async (req, res) => {
  *               type: string
  */
 clienteRouter.delete('/:id', async (req, res) => {
-    try {
-        const idCliente = parseInt(req.params.id);
-        if (isNaN(idCliente)) {
-            return res.status(400).json({ok: false, error: "Invalid id"});
-        }
+	try {
+		const idCliente = parseInt(req.params.id)
+		if (isNaN(idCliente)) {
+			return res.status(400).json({ ok: false, error: 'Invalid id' })
+		}
 
-        await ClienteRepository.deleteCliente(idCliente);
+		await ClienteRepository.deleteCliente(idCliente)
 
-        res.json({ok: true});
-    } catch (e) {
-        res.status(500).json({ok: false, error: e.message});
-    }
-});
+		res.json({ ok: true })
+	} catch (e) {
+		res.status(500).json({ ok: false, error: e.message })
+	}
+})
 
 
 /**
@@ -291,19 +291,19 @@ clienteRouter.delete('/:id', async (req, res) => {
  *         format: date
  */
 clienteRouter.put('/:id', async (req, res) => {
-    try {
-        const idCliente = parseInt(req.params.id);
-        if (isNaN(idCliente)) {
-            return res.status(400).json({ok: false, error: "Invalid id"});
-        }
+	try {
+		const idCliente = parseInt(req.params.id)
+		if (isNaN(idCliente)) {
+			return res.status(400).json({ ok: false, error: 'Invalid id' })
+		}
 
-        const clienteData = req.body;
-        await ClienteRepository.updateCliente(idCliente, clienteData);
+		const clienteData = req.body
+		await ClienteRepository.updateCliente(idCliente, clienteData)
 
-        res.json({ok: true});
-    } catch (e) {
-        res.status(500).json({ok: false, error: e.message});
-    }
-});
+		res.json({ ok: true })
+	} catch (e) {
+		res.status(500).json({ ok: false, error: e.message })
+	}
+})
 
 export default clienteRouter

@@ -1,8 +1,8 @@
-import express from "express";
+import express from 'express'
 
-const homeRouter = express.Router();
-homeRouter.get('/', function(req, res, next) {
-    res.redirect('/api-docs');
-});
+const homeRouter = express.Router()
+homeRouter.get('/', function (req, res) {
+	res.redirect('/api-docs')
+})
 
-export default homeRouter;
+export default homeRouter

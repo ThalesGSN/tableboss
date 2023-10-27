@@ -1,3 +1,3 @@
-import FuncionarioRepository from "./FuncionarioRepository";
+import FuncionarioRepository from './FuncionarioRepository'
 
 export default FuncionarioRepository

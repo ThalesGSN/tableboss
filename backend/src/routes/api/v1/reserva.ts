@@ -1,7 +1,7 @@
-import express from "express";
-import {format} from 'date-fns';
-import {Reserva} from "@tableboss/types";
-import ReservaRepository from "../../../repository/Reserva/ReservaRepository"; // Assuming you have a similar structure for Reserva
+import express from 'express'
+import { format } from 'date-fns'
+import { Reserva } from '@tableboss/types'
+import ReservaRepository from '../../../repository/Reserva/ReservaRepository' // Assuming you have a similar structure for Reserva
 
 const reservaRouter = express.Router()
 
@@ -86,19 +86,19 @@ const reservaRouter = express.Router()
  *         type: string
  */
 reservaRouter.post('/', async (req, res) => {
-    try {
-        const reserva = req.body as Omit<Reserva, 'idReserva'>
-        const createdReserva = await ReservaRepository.createReserva(reserva)
-        res.status(201).json({
-            ok: true,
-            data: createdReserva
-        })
-    } catch (e) {
-        res.status(400).json({
-            ok: false,
-            error: e.message
-        })
-    }
+	try {
+		const reserva = req.body as Omit<Reserva, 'idReserva'>
+		const createdReserva = await ReservaRepository.createReserva(reserva)
+		res.status(201).json({
+			ok: true,
+			data: createdReserva
+		})
+	} catch (e) {
+		res.status(400).json({
+			ok: false,
+			error: e.message
+		})
+	}
 })
 
 /**
@@ -140,22 +140,22 @@ reservaRouter.post('/', async (req, res) => {
  *               type: string
  */
 reservaRouter.get('/', async (req, res) => {
-    try {
-        let date = req.query.date as string;
-        if (!date) {
-            date = format(new Date(), 'yyyy-MM-dd');
-        }
-        const reservas = await ReservaRepository.getReservasByDate(date);
-        res.json({
-            ok: true,
-            data: reservas
-        })
-    } catch (e) {
-        res.json({
-            ok: false,
-            error: e.message
-        })
-    }
+	try {
+		let date = req.query.date as string
+		if (!date) {
+			date = format(new Date(), 'yyyy-MM-dd')
+		}
+		const reservas = await ReservaRepository.getReservasByDate(date)
+		res.json({
+			ok: true,
+			data: reservas
+		})
+	} catch (e) {
+		res.json({
+			ok: false,
+			error: e.message
+		})
+	}
 })
 
 
@@ -202,53 +202,53 @@ reservaRouter.get('/', async (req, res) => {
  *               type: string
  */
 reservaRouter.delete('/:id', async (req, res) => {
-    try {
-        const idReserva = parseInt(req.params.id);
-        if (isNaN(idReserva)) {
-            return res.status(400).json({ok: false, error: "Invalid id"});
-        }
+	try {
+		const idReserva = parseInt(req.params.id)
+		if (isNaN(idReserva)) {
+			return res.status(400).json({ ok: false, error: 'Invalid id' })
+		}
 
-        await ReservaRepository.deleteReserva(idReserva);
+		await ReservaRepository.deleteReserva(idReserva)
 
-        res.json({ok: true});
-    } catch (e) {
-        res.status(500).json({ok: false, error: e.message});
-    }
-});
-
-
-reservaRouter.put('/:id', async (req, res) => {
-    try {
-        const idReserva = parseInt(req.params.id);
-        if (isNaN(idReserva)) {
-            return res.status(400).json({ok: false, error: "Invalid id"});
-        }
-
-        const reservaData = req.body;
-        await ReservaRepository.updateReserva(idReserva, reservaData);
-
-        res.json({ok: true});
-    } catch (e) {
-        res.status(500).json({ok: false, error: e.message});
-    }
-});
+		res.json({ ok: true })
+	} catch (e) {
+		res.status(500).json({ ok: false, error: e.message })
+	}
+})
 
 
 reservaRouter.put('/:id', async (req, res) => {
-    try {
-        const idReserva = parseInt(req.params.id);
-        if (isNaN(idReserva)) {
-            return res.status(400).json({ok: false, error: "Invalid id"});
-        }
+	try {
+		const idReserva = parseInt(req.params.id)
+		if (isNaN(idReserva)) {
+			return res.status(400).json({ ok: false, error: 'Invalid id' })
+		}
 
-        const reservaData = req.body;
-        await ReservaRepository.updateReserva(idReserva, reservaData);
+		const reservaData = req.body
+		await ReservaRepository.updateReserva(idReserva, reservaData)
 
-        res.json({ok: true});
-    } catch (e) {
-        res.status(500).json({ok: false, error: e.message});
-    }
-});
+		res.json({ ok: true })
+	} catch (e) {
+		res.status(500).json({ ok: false, error: e.message })
+	}
+})
 
 
-export default reservaRouter;
+reservaRouter.put('/:id', async (req, res) => {
+	try {
+		const idReserva = parseInt(req.params.id)
+		if (isNaN(idReserva)) {
+			return res.status(400).json({ ok: false, error: 'Invalid id' })
+		}
+
+		const reservaData = req.body
+		await ReservaRepository.updateReserva(idReserva, reservaData)
+
+		res.json({ ok: true })
+	} catch (e) {
+		res.status(500).json({ ok: false, error: e.message })
+	}
+})
+
+
+export default reservaRouter

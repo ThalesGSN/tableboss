@@ -1,7 +1,7 @@
-import express from "express";
-import MesaRepository from "../../../repository/Mesa";
+import express from 'express'
+import MesaRepository from '../../../repository/Mesa'
 
-const mesaRouter = express.Router();
+const mesaRouter = express.Router()
 
 /**
  * @swagger
@@ -44,18 +44,18 @@ const mesaRouter = express.Router();
  *         type: integer
  */
 mesaRouter.get('/', async (req, res) => {
-    try {
-        const mesas = await MesaRepository.getAllMesas();
-        res.json({
-            ok: true,
-            data: mesas
-        });
-    } catch (e) {
-        res.json({
-            ok: false,
-            error: e.message
-        });
-    }
-});
+	try {
+		const mesas = await MesaRepository.getAllMesas()
+		res.json({
+			ok: true,
+			data: mesas
+		})
+	} catch (e) {
+		res.json({
+			ok: false,
+			error: e.message
+		})
+	}
+})
 
-export default mesaRouter;
+export default mesaRouter

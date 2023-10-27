@@ -1,8 +1,8 @@
-import express from "express";
-import FuncionarioRrepository from "../../../repository/Funcionario";
+import express from 'express'
+import FuncionarioRrepository from '../../../repository/Funcionario'
 
 
-const loginRouter = express.Router();
+const loginRouter = express.Router()
 
 /**
  * @swagger
@@ -63,26 +63,26 @@ const loginRouter = express.Router();
  *                 ok: false
  */
 loginRouter.post('/', async function (req, res) {
-    try {
-        const {username, password} = req.body; // Replace with the ID of the Slack channel you want to fetch users from
+	try {
+		const { username, password } = req.body // Replace with the ID of the Slack channel you want to fetch users from
 
-        const funcionarioExists = await FuncionarioRrepository.funcionarioExists(username);
-        if (!funcionarioExists) {
-            res.status(404).json({error: 'User not found', ok: false});
-            return;
-        }
+		const funcionarioExists = await FuncionarioRrepository.funcionarioExists(username)
+		if (!funcionarioExists) {
+			res.status(404).json({ error: 'User not found', ok: false })
+			return
+		}
 
-        const funcionario = await FuncionarioRrepository.login(username, password);
-        if (!funcionario) {
-            res.status(401).json({error: 'Invalid password', ok: false});
-            return;
-        }
+		const funcionario = await FuncionarioRrepository.login(username, password)
+		if (!funcionario) {
+			res.status(401).json({ error: 'Invalid password', ok: false })
+			return
+		}
 
-        res.json({data: funcionario, ok: true});
-    } catch (error) {
-        res.status(500).json({error: 'Failed to fetch user', ok: false});
-    }
+		res.json({ data: funcionario, ok: true })
+	} catch (error) {
+		res.status(500).json({ error: 'Failed to fetch user', ok: false })
+	}
 })
 
 
-export default loginRouter;
+export default loginRouter
