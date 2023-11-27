@@ -25,12 +25,12 @@ INSERT INTO Ingrediente (ID_fornecedor, nome, qtd_estoque) VALUES (4, 'Batata', 
 INSERT INTO Ingrediente (ID_fornecedor, nome, qtd_estoque) VALUES (1, 'Pimentão', 80);
 INSERT INTO Ingrediente (ID_fornecedor, nome, qtd_estoque) VALUES (1, 'Orégano', 50);
 INSERT INTO Ingrediente (ID_fornecedor, nome, qtd_estoque) VALUES (2, 'Melão', 30);
-INSERT INTO Ingrediente (ID_fornecedor, nome, qtd_estoque) VALUES (2, 'Uva', 100);
+INSERT INTO Ingrediente (ID_fornecedor, nome, qtd_estoque) VALUES (2, 'Uva', 9);
 INSERT INTO Ingrediente (ID_fornecedor, nome, qtd_estoque) VALUES (3, 'Peito de Frango', 150);
 INSERT INTO Ingrediente (ID_fornecedor, nome, qtd_estoque) VALUES (3, 'Carne Suína', 120);
 INSERT INTO Ingrediente (ID_fornecedor, nome, qtd_estoque) VALUES (4, 'Cenoura', 150);
 INSERT INTO Ingrediente (ID_fornecedor, nome, qtd_estoque) VALUES (4, 'Brócolis', 50);
-INSERT INTO Ingrediente (ID_fornecedor, nome, qtd_estoque) VALUES (4, 'Milho', 80);
+INSERT INTO Ingrediente (ID_fornecedor, nome, qtd_estoque) VALUES (4, 'Milho', 8);
 INSERT INTO Ingrediente (ID_fornecedor, nome, qtd_estoque) VALUES (4, 'Ervilha', 60);
 
 -- Inserindo dados na tabela Item_do_Menu
@@ -104,3 +104,65 @@ INSERT INTO Cliente_VIP (ID_cliente, ID_status_vip, Historico_de_Visitas, Descon
                                                                                         (2, 2, 'Sempre visita nas terças-feiras.', 10.00),      -- PRATA
                                                                                         (3, 3, 'Cliente antigo e fiel.', 15.00),                 -- OURO
                                                                                         (4, 4, 'Maior gastador do restaurante.', 20.00);        -- PLATINA
+
+-- dados do select
+
+-- clientes
+INSERT INTO Cliente (Nome, Contato, Endereco, Data_de_Nascimento)
+VALUES
+('João Silva', '123456789', 'Rua Exemplo, 123', '1990-01-01'),
+('Maria Oliveira', '987654321', 'Avenida Exemplo, 456', '1992-02-02');
+
+-- Inserções de contas pagas
+INSERT INTO Conta (ID_cliente, Data_do_Pagamento, Valor_Total)
+VALUES
+(1, '2023-11-25', 100.00),  -- Conta paga para João Silva
+(2, '2023-11-25', 150.00);  -- Conta paga para Maria Oliveira
+
+-- Inserções de pedidos pagos
+INSERT INTO Pedido (ID_conta, ID_cliente, ID_mesa, ID_funcionario, ID_status_pedido, Data_do_Pedido)
+VALUES
+(1, 1, 1, 1, 4, '2023-11-25'),  -- Pedido pago de João Silva
+(2, 2, 2, 2, 4, '2023-11-25');  -- Pedido pago de Maria Oliveira
+
+    -- Itens para o Pedido pago de João Silva (ID_pedido = 1)
+INSERT INTO Item_do_Pedido (ID_pedido, ID_item, Quantidade, Preco_Unitario)
+VALUES
+(1, 1, 2, 15.90),  -- 2 Saladas Tropicais
+(1, 4, 1, 8.50);   -- 1 Suco Natural
+
+-- Itens para o Pedido pago de Maria Oliveira (ID_pedido = 2)
+INSERT INTO Item_do_Pedido (ID_pedido, ID_item, Quantidade, Preco_Unitario)
+VALUES
+(2, 2, 1, 22.50),  -- 1 Hamburguer Artesanal
+(2, 3, 2, 8.50),   -- 2 Sorvetes
+(2, 4, 2, 8.50);   -- 2 Sucos Naturais
+
+
+-- Inserções de contas
+INSERT INTO Conta (ID_cliente, Data_do_Pagamento, Valor_Total)
+VALUES
+(1, NULL, 100.00),  -- Conta pendente para João Silva
+(2, NULL, 150.00);  -- Conta pendente para Maria Oliveira
+
+
+-- Inserções de pedidos pendentes
+INSERT INTO Pedido (ID_conta, ID_cliente, ID_mesa, ID_funcionario, ID_status_pedido, Data_do_Pedido)
+VALUES
+(3, 1, 1, 1, 1, '2023-11-25'),  -- Pedido de João Silva
+(4, 2, 2, 2, 1, '2023-11-25');  -- Pedido de Maria Oliveira
+
+
+
+
+INSERT INTO Item_do_Pedido (ID_pedido, ID_item, Quantidade, Preco_Unitario)
+VALUES
+(3, 1, 2, 15.90),  -- 2 Saladas Tropicais
+(3, 4, 1, 8.50);   -- 1 Suco Natural
+
+-- Itens para o Pedido de Maria Oliveira (ID_pedido = 2)
+INSERT INTO Item_do_Pedido (ID_pedido, ID_item, Quantidade, Preco_Unitario)
+VALUES
+(4, 2, 1, 22.50),  -- 1 Hamburguer Artesanal
+(4, 3, 2, 8.50),   -- 2 Sorvetes
+(4, 4, 2, 8.50);   -- 2 Sucos Naturais

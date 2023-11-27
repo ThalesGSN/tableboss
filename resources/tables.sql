@@ -1,3 +1,6 @@
+create schema IF NOT EXISTS tableboss;
+use tableboss;
+
 CREATE TABLE Cliente (
     ID_cliente INT AUTO_INCREMENT PRIMARY KEY,
     Nome TEXT NOT NULL,
@@ -52,7 +55,7 @@ CREATE TABLE Mesa (
 CREATE TABLE Conta (
     ID_conta INT AUTO_INCREMENT PRIMARY KEY,
     ID_cliente INT,
-    Data_do_Pagamento DATE NOT NULL,
+    Data_do_Pagamento DATE,
     Valor_Total DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (ID_cliente) REFERENCES Cliente(ID_cliente)
 );
@@ -137,3 +140,39 @@ CREATE TABLE Ingrediente_Item_Menu (
     FOREIGN KEY (ID_item) REFERENCES Item_do_Menu(ID_item)
 );
 
+
+DELIMITER //
+
+CREATE TRIGGER after_item_pedido_insert
+AFTER INSERT ON Item_do_Pedido
+FOR EACH ROW
+BEGIN
+    -- Declara variáveis para armazenar informações sobre os ingredientes
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE ingredienteID INT;
+    DECLARE quantidadeUsada INT;
+    DECLARE cur CURSOR FOR
+        SELECT ID_ingrediente, Quantidade
+        FROM Ingrediente_Item_Menu
+        WHERE ID_item = NEW.ID_item;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    -- Abre cursor para iterar sobre os ingredientes do item do menu
+    OPEN cur;
+
+    read_loop: LOOP
+        FETCH cur INTO ingredienteID, quantidadeUsada;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+
+        -- Atualiza a quantidade do ingrediente na tabela Ingrediente
+        UPDATE Ingrediente
+        SET qtd_estoque = qtd_estoque - (quantidadeUsada * NEW.Quantidade)
+        WHERE ID_ingrediente = ingredienteID;
+    END LOOP;
+
+    CLOSE cur;
+END; //
+
+DELIMITER ;
