@@ -76,7 +76,7 @@ CREATE TABLE Pedido (
     FOREIGN KEY (ID_conta) REFERENCES Conta(ID_conta),
     FOREIGN KEY (ID_cliente) REFERENCES Cliente(ID_cliente),
     FOREIGN KEY (ID_mesa) REFERENCES Mesa(ID_mesa),
-    FOREIGN KEY (ID_funcionario) REFERENCES Funcionario(ID_funcionario),
+    FOREIGN KEY (ID_funcionario) REFERENCES Funcionario(ID_funcionario) ON DELETE SET NULL,
     FOREIGN KEY (ID_status_pedido) REFERENCES Status_Pedido(ID_status)
 );
 
@@ -102,7 +102,7 @@ CREATE TABLE Cliente_VIP (
     ID_status_vip INT NOT NULL,
     Historico_de_Visitas TEXT,
     Desconto DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (ID_cliente) REFERENCES Cliente(ID_cliente),
+    FOREIGN KEY (ID_cliente) REFERENCES Cliente(ID_cliente) ON DELETE CASCADE,
     FOREIGN KEY (ID_status_vip) REFERENCES Status_VIP(ID_status_vip)
 );
 
@@ -112,7 +112,7 @@ CREATE TABLE Item_do_Pedido (
     Quantidade INT NOT NULL,
     Preco_Unitario DECIMAL(10,2) NOT NULL,
     PRIMARY KEY (ID_pedido, ID_item),
-    FOREIGN KEY (ID_pedido) REFERENCES Pedido(ID_pedido),
+    FOREIGN KEY (ID_pedido) REFERENCES Pedido(ID_pedido) ON DELETE CASCADE,
     FOREIGN KEY (ID_item) REFERENCES Item_do_Menu(ID_item)
 );
 
@@ -137,10 +137,11 @@ CREATE TABLE Ingrediente_Item_Menu (
     Quantidade INT NOT NULL,
     PRIMARY KEY (ID_ingrediente, ID_item),
     FOREIGN KEY (ID_ingrediente) REFERENCES Ingrediente(ID_ingrediente),
-    FOREIGN KEY (ID_item) REFERENCES Item_do_Menu(ID_item)
+    FOREIGN KEY (ID_item) REFERENCES Item_do_Menu(ID_item) ON DELETE CASCADE
 );
 
 
+-- Esta trigger faz o update da quantidade de estoque quando um ingrediente é usado em um pedido
 DELIMITER //
 
 CREATE TRIGGER after_item_pedido_insert
